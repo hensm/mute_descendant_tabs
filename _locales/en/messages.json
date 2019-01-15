@@ -1,0 +1,17 @@
+{
+    "extensionName": {
+        "message": "Mute Descendant Tabs"
+    }
+  , "extensionDescription": {
+        "message": "Mutes any new tabs opened from muted tabs."
+    }
+  , "copyExtensionMutedStateTitle": {
+        "message": "Mute descendants of &extension-muted tabs"
+    }
+  , "linkMutedStateTitle": {
+        "message": "&Link muted-state to originator tab"
+    }
+  , "linkMutedStateRemuteTitle": {
+        "message": "&Maintain muted-state after unmuting"
+    }
+}
