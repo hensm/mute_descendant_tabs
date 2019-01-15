@@ -91,14 +91,10 @@ browser.runtime.onInstalled.addListener(async details => {
 });
 
 
-browser.tabs.onCreated.addListener(async tab => {
+browser.webNavigation.onCreatedNavigationTarget.addListener(async details => {
     const { options } = await browser.storage.sync.get("options");
 
-    if (!tab.openerTabId) {
-        return;
-    }
-
-    const openerTab = await browser.tabs.get(tab.openerTabId);
+    const openerTab = await browser.tabs.get(details.sourceTabId);
     const { mutedInfo } = openerTab;
 
     if (!mutedInfo.muted) {
@@ -113,7 +109,7 @@ browser.tabs.onCreated.addListener(async tab => {
         };
         case "user": {
             // Set muted
-            browser.tabs.update(tab.id, {
+            browser.tabs.update(details.tabId, {
                 muted: true
             });
 
@@ -135,7 +131,7 @@ browser.tabs.onCreated.addListener(async tab => {
                     case "user": {
                         if (options.linkMutedState) {
                             try {
-                                await browser.tabs.update(tab.id, {
+                                await browser.tabs.update(details.tabId, {
                                     muted: changeInfo.mutedInfo.muted
                                 });
                             } catch (err) {}

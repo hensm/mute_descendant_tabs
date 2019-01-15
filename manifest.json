@@ -20,5 +20,6 @@
   , "permissions": [
         "menus"
       , "storage"
+      , "webNavigation"
     ]
 }
