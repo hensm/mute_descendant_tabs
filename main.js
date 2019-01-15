@@ -131,9 +131,16 @@ browser.webNavigation.onCreatedNavigationTarget.addListener(async details => {
                     case "user": {
                         if (options.linkMutedState) {
                             try {
-                                await browser.tabs.update(details.tabId, {
-                                    muted: changeInfo.mutedInfo.muted
-                                });
+                                /**
+                                 * If user has modified descendant tab's muted
+                                 * state, don't update it.
+                                 */
+                                const tab = await browser.tabs.get(details.tabId);
+                                if (tab.mutedInfo.reason === "extension") {
+                                    await browser.tabs.update(tab.id, {
+                                        muted: changeInfo.mutedInfo.muted
+                                    });
+                                }
                             } catch (err) {}
 
                             // Disable after unmuting descendant tabs
